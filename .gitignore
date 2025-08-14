@@ -19,4 +19,5 @@ buildNumber.properties
  temporales
 *~
 *.bak
+src/main/resources/db.properties
 

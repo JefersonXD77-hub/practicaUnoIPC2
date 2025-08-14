@@ -1,0 +1,6 @@
+db.host=localhost
+db.port=3306
+db.name=eventos_hyrule
+db.user=ja
+db.password=1324
+db.params=useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=America/Guatemala&characterEncoding=utf8
