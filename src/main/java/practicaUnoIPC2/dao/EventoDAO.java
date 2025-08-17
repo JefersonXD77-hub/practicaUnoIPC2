@@ -19,7 +19,7 @@ public class EventoDAO {
 
     public List<Evento> obtenerEventos() {
         List<Evento> lista = new ArrayList<>();
-        String sql = "SELECT *FROM Evento";
+        String sql = "SELECT * FROM Evento";
 
         try ( Connection conectar = ConexionBD.getConnection();  PreparedStatement consulta = conectar.prepareStatement(sql);  ResultSet resultado = consulta.executeQuery()) {
 

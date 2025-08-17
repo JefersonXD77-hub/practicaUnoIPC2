@@ -22,6 +22,22 @@ public class Evento {
     private int cupo_maximo_evento;
     private BigDecimal costo;
 
+    public Evento(){
+    
+    }
+    
+    public Evento(String id_evento, LocalDate fecha, String tipo_evento, String titulo_evento, String ubicacion, int cupo_maximo_evento, BigDecimal costo) {
+    
+        this.id_evento = id_evento;
+        this.fecha = fecha;
+        this.tipo_evento = tipo_evento;
+        this.titulo_evento = titulo_evento;
+        this.ubicacion = ubicacion;
+        this.cupo_maximo_evento = cupo_maximo_evento;
+        this.costo = costo;
+    
+    }
+    
     public String getId_evento() {
         return id_evento;
     }

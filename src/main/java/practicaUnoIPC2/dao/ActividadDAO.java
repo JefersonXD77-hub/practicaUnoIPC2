@@ -19,7 +19,7 @@ public class ActividadDAO {
 
     public List<Actividad> obtenerActividad() {
         List<Actividad> lista = new ArrayList<>();
-        String sql = "SELECT * FROM Actividd";
+        String sql = "SELECT * FROM Actividad";
 
         try ( Connection conectar = ConexionBD.getConnection();  PreparedStatement consulta = conectar.prepareStatement(sql);  ResultSet resultado = consulta.executeQuery()) {
 

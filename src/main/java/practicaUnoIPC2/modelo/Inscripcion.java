@@ -14,6 +14,7 @@ public class Inscripcion {
     private String id_evento;
     private String correo;
     private String tipo_inscripcion;
+    private boolean validada;
     
     public Inscripcion() {
     
