@@ -51,4 +51,13 @@ public class Inscripcion {
     public void setTipo_inscripcion(String tipo_inscripcion) {
         this.tipo_inscripcion = tipo_inscripcion;
     }
+
+    public boolean isValidada() {
+        return validada;
+    }
+
+    public void setValidada(boolean validada) {
+        this.validada = validada;
+    }
+    
 }

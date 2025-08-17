@@ -53,6 +53,7 @@ public class ParticipanteDAO {
             consulta.setString(4, pa.getCorreo());
 
             return consulta.executeUpdate() > 0;
+            
         } catch (SQLException ex) {
             System.out.println("Error al insertar participante: " + ex.getMessage());
         }
@@ -70,9 +71,6 @@ public class ParticipanteDAO {
             try ( ResultSet resultado = consulta.executeQuery()) {
                 if (resultado.next()) {
 
-                }
-
-                {
                     pa = new Participante();
                     pa.setNombreCompleto(resultado.getString("nombre_completo"));
                     pa.setTipoParticipante(resultado.getString("tipo_participante"));

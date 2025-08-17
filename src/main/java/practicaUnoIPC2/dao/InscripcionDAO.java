@@ -56,6 +56,20 @@ public class InscripcionDAO {
         return false;
     }
 
+    public void marcarValidada(String idEvento, String correo, boolean valor) {
+        String sql = "UPDATE Incripcion SET validada=? WHERE id_evento=? AND correo=?";
+        try ( Connection conectar = ConexionBD.getConnection();  PreparedStatement consulta = conectar.prepareStatement(sql)) {
+            consulta.setBoolean(1, valor);
+            consulta.setString(2, idEvento);
+            consulta.setString(3, correo);
+            consulta.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println("Error al validar inscripcion : " + e.getMessage());
+        }
+
+    }
+
     public Inscripcion buscar(String idEvento, String correo) {
         String sql = "SELECT *FROM Inscripcion WHERE id_evento = ? AND correo = ?";
         Inscripcion ins = null;
