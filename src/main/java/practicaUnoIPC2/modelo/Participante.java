@@ -5,6 +5,8 @@
  */
 package practicaUnoIPC2.modelo;
 
+import practicaUnoIPC2.enums.TipoParticipante;
+
 /**
  *
  * @author aguil
@@ -12,7 +14,7 @@ package practicaUnoIPC2.modelo;
 public class Participante {
 
     private String nombreCompleto;
-    private String tipoParticipante;
+    private TipoParticipante tipoParticipante;
     private String institucion;
     private String correo;
 
@@ -20,7 +22,7 @@ public class Participante {
 
     }
 
-    public Participante(String nombreCompleto, String tipoParticipante, String institucion, String correo){
+    public Participante(String nombreCompleto, TipoParticipante tipoParticipante, String institucion, String correo){
     this.nombreCompleto = nombreCompleto; 
     this.tipoParticipante = tipoParticipante;
     this.institucion = institucion;
@@ -36,11 +38,11 @@ public class Participante {
         this.nombreCompleto = nombreCompleto;
     }
 
-    public String getTipoParticipante() {
+    public TipoParticipante getTipoParticipante() {
         return tipoParticipante;
     }
 
-    public void setTipoParticipante(String tipoParticipante) {
+    public void setTipoParticipante(TipoParticipante tipoParticipante) {
         this.tipoParticipante = tipoParticipante;
     }
 

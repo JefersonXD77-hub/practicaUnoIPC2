@@ -7,6 +7,7 @@ package practicaUnoIPC2.dao;
 
 import practicaUnoIPC2.ConexionBD;
 import practicaUnoIPC2.modelo.Participante;
+import practicaUnoIPC2.enums.TipoParticipante;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,7 @@ public class ParticipanteDAO {
             while (resultado.next()) {
                 Participante pa = new Participante();
                 pa.setNombreCompleto(resultado.getString("nombre_completo"));
-                pa.setTipoParticipante(resultado.getString("tipo_participante"));
+                pa.setTipoParticipante(TipoParticipante.valueOf(resultado.getString("tipo_participante")));
                 pa.setInstitucion(resultado.getString("institucion"));
                 pa.setCorreo(resultado.getString("correo"));
                 lista.add(pa);
@@ -48,12 +49,12 @@ public class ParticipanteDAO {
         try ( Connection conectar = ConexionBD.getConnection();  PreparedStatement consulta = conectar.prepareStatement(sql)) {
 
             consulta.setString(1, pa.getNombreCompleto());
-            consulta.setString(2, pa.getTipoParticipante());
+            consulta.setString(2, pa.getTipoParticipante().name());
             consulta.setString(3, pa.getInstitucion());
             consulta.setString(4, pa.getCorreo());
 
             return consulta.executeUpdate() > 0;
-            
+
         } catch (SQLException ex) {
             System.out.println("Error al insertar participante: " + ex.getMessage());
         }
@@ -73,7 +74,7 @@ public class ParticipanteDAO {
 
                     pa = new Participante();
                     pa.setNombreCompleto(resultado.getString("nombre_completo"));
-                    pa.setTipoParticipante(resultado.getString("tipo_participante"));
+                    pa.setTipoParticipante(TipoParticipante.valueOf(resultado.getString("tipo_participante")));
                     pa.setInstitucion(resultado.getString("institucion"));
                     pa.setCorreo(resultado.getString("correo"));
 

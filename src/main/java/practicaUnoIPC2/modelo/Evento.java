@@ -7,6 +7,7 @@ package practicaUnoIPC2.modelo;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import practicaUnoIPC2.enums.TipoEvento;
 
 /**
  *
@@ -16,7 +17,7 @@ public class Evento {
     
     private String id_evento;
     private LocalDate fecha;
-    private String tipo_evento;
+    private TipoEvento tipo_evento;
     private String titulo_evento;
     private String ubicacion;
     private int cupo_maximo_evento;
@@ -26,7 +27,7 @@ public class Evento {
     
     }
     
-    public Evento(String id_evento, LocalDate fecha, String tipo_evento, String titulo_evento, String ubicacion, int cupo_maximo_evento, BigDecimal costo) {
+    public Evento(String id_evento, LocalDate fecha, TipoEvento tipo_evento, String titulo_evento, String ubicacion, int cupo_maximo_evento, BigDecimal costo) {
     
         this.id_evento = id_evento;
         this.fecha = fecha;
@@ -54,11 +55,11 @@ public class Evento {
         this.fecha = fecha;
     }
 
-    public String getTipo_evento() {
+    public TipoEvento getTipo_evento() {
         return tipo_evento;
     }
 
-    public void setTipo_evento(String tipo_evento) {
+    public void setTipo_evento(TipoEvento tipo_evento) {
         this.tipo_evento = tipo_evento;
     }
 

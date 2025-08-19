@@ -5,6 +5,8 @@
  */
 package practicaUnoIPC2.modelo;
 
+import practicaUnoIPC2.enums.TipoInscripcion;
+
 /**
  *
  * @author aguil
@@ -13,14 +15,14 @@ public class Inscripcion {
     
     private String id_evento;
     private String correo;
-    private String tipo_inscripcion;
+    private TipoInscripcion tipo_inscripcion;
     private boolean validada;
     
     public Inscripcion() {
     
     }
     
-    public Inscripcion(String id_evento, String correo, String tipo_inscripcion){
+    public Inscripcion(String id_evento, String correo, TipoInscripcion tipo_inscripcion){
  
         this.id_evento = id_evento;
         this.correo = correo;
@@ -44,11 +46,11 @@ public class Inscripcion {
         this.correo = correo;
     }
 
-    public String getTipo_inscripcion() {
+    public TipoInscripcion getTipo_inscripcion() {
         return tipo_inscripcion;
     }
 
-    public void setTipo_inscripcion(String tipo_inscripcion) {
+    public void setTipo_inscripcion(TipoInscripcion tipo_inscripcion) {
         this.tipo_inscripcion = tipo_inscripcion;
     }
 

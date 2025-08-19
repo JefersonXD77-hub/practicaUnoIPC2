@@ -7,6 +7,7 @@ package practicaUnoIPC2.dao;
 
 import practicaUnoIPC2.ConexionBD;
 import practicaUnoIPC2.modelo.Pago;
+import practicaUnoIPC2.enums.MetodoPago;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,7 @@ public class PagoDAO {
                 Pago pag = new Pago();
                 pag.setCorreo(resultado.getString("correo"));
                 pag.setId_evento(resultado.getString("id_evento"));
-                pag.setMetodo_pago(resultado.getString("metodo_pago"));
+                pag.setMetodo_pago(MetodoPago.valueOf(resultado.getString("metodo_pago")));
                 pag.setMonto(resultado.getBigDecimal("monto"));
                 lista.add(pag);
 
@@ -40,7 +41,7 @@ public class PagoDAO {
     }
 
     public Pago buscar(String correo, String idEvento) {
-        String sql = "SELECT * FROM Pago WHERE correo = ? AND id_envento = ?";
+        String sql = "SELECT * FROM Pago WHERE correo = ? AND id_evento = ?";
         Pago pag = null;
 
         try ( Connection conectar = ConexionBD.getConnection();  PreparedStatement consulta = conectar.prepareStatement(sql)) {
@@ -54,7 +55,7 @@ public class PagoDAO {
                     pag = new Pago();
                     pag.setCorreo(resultado.getString("correo"));
                     pag.setId_evento(resultado.getString("id_evento"));
-                    pag.setMetodo_pago(resultado.getString("metodo_pago"));
+                    pag.setMetodo_pago(MetodoPago.valueOf(resultado.getString("metodo_pago")));
                     pag.setMonto(resultado.getBigDecimal("monto"));
                 }
 
@@ -67,4 +68,27 @@ public class PagoDAO {
 
     }
 
+    public Pago buscarPorCorreoYEvento(String correo, String idEvento) {
+    String sql = "SELECT * FROM Pago WHERE correo = ? AND id_evento = ?";
+    Pago pago = null;
+    try (Connection conn = ConexionBD.getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setString(1, correo);
+        ps.setString(2, idEvento);
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                pago = new Pago();
+                pago.setCorreo(rs.getString("correo"));
+                pago.setId_evento(rs.getString("id_evento"));
+                pago.setMetodo_pago(MetodoPago.valueOf(rs.getString("metodo_pago")));
+                pago.setMonto(rs.getBigDecimal("monto"));
+            }
+        }
+    } catch (SQLException e) {
+        System.out.println("Error en buscarPorCorreoYEvento: " + e.getMessage());
+    }
+    return pago;
+}
+
+    
 }

@@ -7,6 +7,7 @@ package practicaUnoIPC2.dao;
 
 import practicaUnoIPC2.ConexionBD;
 import practicaUnoIPC2.modelo.Actividad;
+import practicaUnoIPC2.enums.TipoActividad;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,7 @@ public class ActividadDAO {
                 act.setId_actividad(resultado.getString("id_actividad"));
                 act.setId_evento(resultado.getString("id_evento"));
                 act.setTitulo_actividad(resultado.getString("titulo_actividad"));
-                act.setTipo_actividad(resultado.getString("tipo_actividad"));
+                act.setTipo_actividad(TipoActividad.valueOf(resultado.getString("tipo_actividad")));
                 act.setCorreo_no_asistente(resultado.getString("correo_no_asistente"));
                 act.setHora_inicio(resultado.getTime("hora_inicio").toLocalTime());
                 act.setHora_fin(resultado.getTime("hora_fin").toLocalTime());
@@ -51,7 +52,7 @@ public class ActividadDAO {
             consulta.setString(1, act.getId_actividad());
             consulta.setString(2, act.getId_evento());
             consulta.setString(3, act.getTitulo_actividad());
-            consulta.setString(4, act.getTipo_actividad());
+            consulta.setString(4, act.getTipo_actividad().name());
             consulta.setString(5, act.getCorreo_no_asistente());
             consulta.setTime(6, Time.valueOf(act.getHora_inicio()));
             consulta.setTime(7, Time.valueOf(act.getHora_fin()));
@@ -79,7 +80,7 @@ public class ActividadDAO {
                     act.setId_actividad(resultado.getString("id_actividad"));
                     act.setId_evento(resultado.getString("id_evento"));
                     act.setTitulo_actividad(resultado.getString("titulo_actividad"));
-                    act.setTipo_actividad(resultado.getString("tipo_actividad"));
+                    act.setTipo_actividad(TipoActividad.valueOf(resultado.getString("tipo_actividad")));
                     act.setCorreo_no_asistente(resultado.getString("correo_no_asistente"));
                     act.setHora_inicio(resultado.getTime("hora_inicio").toLocalTime());
                     act.setHora_fin(resultado.getTime("hora_fin").toLocalTime());

@@ -6,6 +6,7 @@
 package practicaUnoIPC2.modelo;
 
 import java.time.LocalTime;
+import practicaUnoIPC2.enums.TipoActividad;
 
 /**
  *
@@ -16,7 +17,7 @@ public class Actividad {
     private String id_actividad;
     private String id_evento;
     private String titulo_actividad;
-    private String tipo_actividad;
+    private TipoActividad tipo_actividad;
     private String correo_no_asistente;
     private LocalTime hora_inicio;
     private LocalTime hora_fin;
@@ -26,7 +27,7 @@ public class Actividad {
     
     }
     
-    public  Actividad(String id_actividad, String id_evento, String titulo_actividad, String tipo_actividad, String correo_no_asistente, LocalTime hora_inicio, LocalTime hora_fin, int cupo_maximo) {
+    public  Actividad(String id_actividad, String id_evento, String titulo_actividad, TipoActividad tipo_actividad, String correo_no_asistente, LocalTime hora_inicio, LocalTime hora_fin, int cupo_maximo) {
 
         this.id_actividad = id_actividad;
         this.id_evento = id_evento;
@@ -63,11 +64,11 @@ public class Actividad {
         this.titulo_actividad = titulo_actividad;
     }
 
-    public String getTipo_actividad() {
+    public TipoActividad getTipo_actividad() {
         return tipo_actividad;
     }
 
-    public void setTipo_actividad(String tipo_actividad) {
+    public void setTipo_actividad(TipoActividad tipo_actividad) {
         this.tipo_actividad = tipo_actividad;
     }
 

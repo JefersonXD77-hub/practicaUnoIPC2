@@ -7,6 +7,7 @@ package practicaUnoIPC2.dao;
 
 import practicaUnoIPC2.ConexionBD;
 import practicaUnoIPC2.modelo.Evento;
+import practicaUnoIPC2.enums.TipoEvento;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,7 @@ public class EventoDAO {
                 Evento ev = new Evento();
                 ev.setId_evento(resultado.getString("id_evento"));
                 ev.setFecha(resultado.getDate("fecha").toLocalDate());
-                ev.setTipo_evento(resultado.getString("tipo_evento"));
+                ev.setTipo_evento(TipoEvento.valueOf(resultado.getString("tipo_evento")));
                 ev.setTitulo_evento(resultado.getString("titulo_evento"));
                 ev.setUbicacion(resultado.getString("ubicacion"));
                 ev.setCupo_maximo_evento(resultado.getInt("cupo_maximo_evento"));
@@ -45,23 +46,46 @@ public class EventoDAO {
     public boolean insertar(Evento ev) {
         String sql = "INSERT INTO Evento (id_evento, fecha, tipo_evento, titulo_evento, ubicacion, cupo_maximo_evento, costo) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection conectar = ConexionBD.getConnection();  
-             PreparedStatement consulta = conectar.prepareStatement(sql)){
-            
-           
-                consulta.setString(1, ev.getId_evento());
-                consulta.setDate(2, Date.valueOf(ev.getFecha()));
-                consulta.setString(3, ev.getTipo_evento());
-                consulta.setString(4, ev.getTitulo_evento());
-                consulta.setString(5, ev.getUbicacion());
-                consulta.setInt(6, ev.getCupo_maximo_evento());
-                consulta.setBigDecimal(7, ev.getCosto());
+        try ( Connection conectar = ConexionBD.getConnection();  PreparedStatement consulta = conectar.prepareStatement(sql)) {
 
-                return consulta.executeUpdate() > 0;
-            } catch (SQLException ex) {
-                    System.out.println("Error al insertar evento: " + ex.getMessage());
-                    }
-            return false;
+            consulta.setString(1, ev.getId_evento());
+            consulta.setDate(2, Date.valueOf(ev.getFecha()));
+            consulta.setString(3, ev.getTipo_evento().name());
+            consulta.setString(4, ev.getTitulo_evento());
+            consulta.setString(5, ev.getUbicacion());
+            consulta.setInt(6, ev.getCupo_maximo_evento());
+            consulta.setBigDecimal(7, ev.getCosto());
+
+            return consulta.executeUpdate() > 0;
+        } catch (SQLException ex) {
+            System.out.println("Error al insertar evento: " + ex.getMessage());
         }
-
+        return false;
     }
+
+    public Evento buscarPorId(String id) {
+        String sql = "SELECT * FROM Evento WHERE id_evento = ?";
+        Evento eve = null;
+
+        try ( Connection conectar = ConexionBD.getConnection();  PreparedStatement consulta = conectar.prepareStatement(sql)) {
+
+            consulta.setString(1, id);
+            try ( ResultSet rs = consulta.executeQuery()) {
+                if (rs.next()) {
+                    eve = new Evento();
+                    eve.setId_evento(rs.getString("id_evento"));
+                    eve.setFecha(rs.getDate("fecha").toLocalDate());
+                    eve.setTipo_evento(TipoEvento.valueOf(rs.getString("tipo_evento")));
+                    eve.setTitulo_evento(rs.getString("titulo_evento"));
+                    eve.setUbicacion(rs.getString("ubicacion"));
+                    eve.setCupo_maximo_evento(rs.getInt("cupo_maximo_evento"));
+                    eve.setCosto(rs.getBigDecimal("costo"));
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error al buscar evento: " + ex.getMessage());
+        }
+        return eve;
+    }
+
+}
