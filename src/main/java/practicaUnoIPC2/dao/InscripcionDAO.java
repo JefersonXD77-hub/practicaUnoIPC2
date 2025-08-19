@@ -62,7 +62,7 @@ public class InscripcionDAO {
             consulta.setBoolean(1, valor);
             consulta.setString(2, idEvento);
             consulta.setString(3, correo);
-            consulta.executeUpdate();
+         
             return consulta.executeUpdate() > 0;
 
         } catch (SQLException e) {
@@ -84,6 +84,7 @@ public class InscripcionDAO {
             try ( ResultSet resultado = consulta.executeQuery()) {
                 if (resultado.next()) {
                     ins = new Inscripcion();
+                    ins.setValidada(resultado.getBoolean("validada"));
                     ins.setId_evento(resultado.getString("id_evento"));
                     ins.setCorreo(resultado.getString("correo"));
                     ins.setTipo_inscripcion(TipoInscripcion.valueOf(resultado.getString("tipo_inscripcion")));
@@ -136,13 +137,14 @@ public List<Inscripcion> obtenerInscripcionesPorEvento(String idEvento) {
     try (Connection conn = ConexionBD.getConnection();
          PreparedStatement ps = conn.prepareStatement(sql)) {
         ps.setString(1, idEvento);
-        try (ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
+        try (ResultSet resultado = ps.executeQuery()) {
+            while (resultado.next()) {
                 Inscripcion ins = new Inscripcion();
-                ins.setId_evento(rs.getString("id_evento"));
-                ins.setCorreo(rs.getString("correo"));
+                ins.setId_evento(resultado.getString("id_evento"));
+                ins.setCorreo(resultado.getString("correo"));
+                ins.setValidada(resultado.getBoolean("validada"));
                 ins.setTipo_inscripcion(
-                    TipoInscripcion.valueOf(rs.getString("tipo_inscripcion"))
+                    TipoInscripcion.valueOf(resultado.getString("tipo_inscripcion"))
                 );
                 lista.add(ins);
             }
@@ -153,4 +155,28 @@ public List<Inscripcion> obtenerInscripcionesPorEvento(String idEvento) {
     return lista;
 }
   
+public int contarAsistenciasEnEvento(String idEvento, String correo) {
+    String sql = """
+        SELECT COUNT(*) 
+        FROM Asistencia a
+        INNER JOIN Actividad act ON a.id_actividad = act.id_actividad
+        WHERE act.id_evento = ? AND a.correo = ?
+    """;
+    try (Connection conectar = ConexionBD.getConnection();
+         PreparedStatement consulta = conectar.prepareStatement(sql)) {
+        consulta.setString(1, idEvento);
+        consulta.setString(2, correo);
+        try (ResultSet rs = consulta.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        }
+        
+    } catch (SQLException e) {
+        System.out.println("Error en contarAsistenciasEnEvento: " + e.getMessage());
+    }
+    return 0;
+}
+
+
 }

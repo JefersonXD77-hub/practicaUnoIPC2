@@ -14,6 +14,7 @@ import practicaUnoIPC2.modelo.Pago;
 import practicaUnoIPC2.modelo.Participante;
 import practicaUnoIPC2.enums.MetodoPago;
 import java.util.EnumSet;
+import java.util.List;
 
 /**
  *
@@ -57,4 +58,9 @@ public class PagoLogica {
         return pagoDAO.insertar(pag);
     }
 
+    public List<Pago> listarPagos() {
+    return pagoDAO.obtenerPagos();
+}
+
+    
 }

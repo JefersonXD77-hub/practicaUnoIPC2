@@ -89,6 +89,23 @@ public class PagoDAO {
     }
     return pago;
 }
+public boolean insertar(Pago pag) {
+    String sql = "INSERT INTO Pago (correo, id_evento, metodo_pago, monto) VALUES (?, ?, ?, ?)";
+    try (Connection conectar = ConexionBD.getConnection();
+         PreparedStatement consulta = conectar.prepareStatement(sql)) {
+
+        consulta.setString(1, pag.getCorreo());
+        consulta.setString(2, pag.getId_evento());
+        consulta.setString(3, pag.getMetodo_pago().name()); // usamos name() porque es un enum
+        consulta.setBigDecimal(4, pag.getMonto());
+
+        return consulta.executeUpdate() > 0; // si insertó al menos 1 fila devuelve true
+
+    } catch (SQLException e) {
+        System.out.println("Error al insertar pago: " + e.getMessage());
+    }
+    return false;
+}
 
     
 }

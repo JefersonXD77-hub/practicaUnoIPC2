@@ -18,37 +18,31 @@ import java.io.IOException;
  */
 public class ConexionBD {
 
-    private static Connection conexion = null;
-
     public static Connection getConnection() {
-        if (conexion == null) {
-            try ( InputStream input = ConexionBD.class.getClassLoader().getResourceAsStream("db.properties")) {
+        Connection conexion = null;
+        try (InputStream input = ConexionBD.class.getClassLoader().getResourceAsStream("db.properties")) {
 
-                if (input == null) {
-                    throw new IOException("No se encontr+o el archivo db.properties");
-                }
-
-                Properties prop = new Properties();
-                prop.load(input);
-
-                String host = prop.getProperty("db.host");
-                String port = prop.getProperty("db.port");
-                String name = prop.getProperty("db.name");
-                String user = prop.getProperty("db.user");
-                String password = prop.getProperty("db.password");
-                String params = prop.getProperty("db.params");
-                String url = String.format("jdbc:mysql://%s:%s/%s?%s", host, port, name, params);
-
-                conexion = DriverManager.getConnection(url, user, password);
-                System.out.println("cONEXION ESTABLECIDA CON LA BASE DE DATOS");
-            } catch (IOException ex) {
-                System.out.println("ERROR EN LA LECTURA DE db.properties: " + ex.getMessage());
-            } catch (SQLException ex) {
-                System.out.println("ERROR EN LA CONEXION DE LA BASE DE DATOS: " + ex.getMessage());
+            if (input == null) {
+                throw new IOException("No se encontró el archivo db.properties");
             }
-        }
 
+            Properties prop = new Properties();
+            prop.load(input);
+
+            String host = prop.getProperty("db.host");
+            String port = prop.getProperty("db.port");
+            String name = prop.getProperty("db.name");
+            String user = prop.getProperty("db.user");
+            String password = prop.getProperty("db.password");
+            String params = prop.getProperty("db.params");
+            String url = String.format("jdbc:mysql://%s:%s/%s?%s", host, port, name, params);
+
+            conexion = DriverManager.getConnection(url, user, password);
+            System.out.println(" Conexión establecida con la base de datos");
+        } catch (IOException | SQLException ex) {
+            System.out.println(" Error al conectar con la BD: " + ex.getMessage());
+        }
         return conexion;
     }
-
 }
+

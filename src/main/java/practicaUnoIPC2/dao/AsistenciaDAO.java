@@ -54,6 +54,39 @@ public class AsistenciaDAO {
         return false;
     }
 
+    public boolean existe(String idActividad, String correo) {
+        String sql = "SELECT COUNT(*) FROM Asistencia WHERE id_actividad = ? AND correo = ?";
+        try (Connection conectar = ConexionBD.getConnection();
+             PreparedStatement consulta = conectar.prepareStatement(sql)) {
+            consulta.setString(1, idActividad);
+            consulta.setString(2, correo);
+            try (ResultSet consulta2 = consulta.executeQuery()) {
+                if (consulta2.next()) {
+                    return consulta2.getInt(1) > 0;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error en existe: " + e.getMessage());
+        }
+        return false;
+    }
+    
+    public int contarAsistentes(String idActividad) {
+        String sql = "SELECT COUNT(*) FROM Asistencia WHERE id_actividad = ?";
+        try (Connection conn = ConexionBD.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, idActividad);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error en contarAsistentes: " + e.getMessage());
+        }
+        return 0;
+    }
+    
     public List<Asistencia> buscarPorCorreo(String correo) {
         List<Asistencia> lista = new ArrayList<>();
         String sql = "SELECT * FROM Asistencia WHERE correo = ?";

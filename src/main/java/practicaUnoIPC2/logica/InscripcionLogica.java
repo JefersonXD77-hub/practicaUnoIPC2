@@ -28,23 +28,31 @@ public class InscripcionLogica {
     private final PagoDAO pagoDAO = new PagoDAO();
 
     public boolean inscribir(Inscripcion ins) {
+        if(ins == null) {
+        return false;
+        }
+ 
         Participante par = participanteDAO.buscarPorCorreo(ins.getCorreo());
         Evento eve = eventoDAO.buscarPorId(ins.getId_evento());
 
+   if (ins.getTipo_inscripcion() == null) {
+            System.out.println("Tipo de inscripción inválida."); return false;
+        }
+        
         if (par == null) {
-            System.out.println("Error: el participante no existe");
+            System.out.println("Error, el participante no existe");
             return false;
         }
         if (eve == null) {
-            System.out.println("Erro: el evento no existe");
+            System.out.println("Erro, el evento no existe");
             return false;
         }
         if (inscripcionDAO.estaInscrito(ins.getId_evento(), ins.getCorreo())) {
-            System.out.println("Error: ya está inscrito");
+            System.out.println("Error, ya está inscrito");
             return false;
         }
         if (inscripcionDAO.contarInscritos(ins.getId_evento()) >= eve.getCupo_maximo_evento()) {
-            System.out.println("Erro: no hay cupo disponible");
+            System.out.println("Erro, no hay cupo disponible");
             return false;
         }
         return inscripcionDAO.insertar(ins);
@@ -55,6 +63,9 @@ public class InscripcionLogica {
         Pago pago = pagoDAO.buscarPorCorreoYEvento(correo, idEvento);
         Evento eve = eventoDAO.buscarPorId(idEvento);
 
+        if (eve == null) { 
+            System.out.println("Evento no existe"); return false;
+        }
         if (pago != null && pago.getMonto().compareTo(eve.getCosto()) >= 0) {
             return inscripcionDAO.marcarValidada(idEvento, correo, true);
         } else {

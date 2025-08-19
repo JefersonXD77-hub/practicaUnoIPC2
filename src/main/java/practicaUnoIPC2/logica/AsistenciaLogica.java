@@ -16,6 +16,7 @@ public class AsistenciaLogica {
 
     private final AsistenciaDAO asistenciaDAO = new AsistenciaDAO();
     private final ActividadDAO actividadDAO = new ActividadDAO();
+     private final InscripcionDAO inscripcionDAO = new InscripcionDAO();
 
     public boolean registrarAsistencia(String idActividad, String correo) {
 
@@ -25,6 +26,12 @@ public class AsistenciaLogica {
             return false;
         }
 
+          Inscripcion ins = inscripcionDAO.buscar(act.getId_evento(), correo);
+        if (ins == null) {
+            System.out.println("El participante no está inscrito en el evento de la actividad.");
+            return false;
+        }
+        
         if (asistenciaDAO.existe(idActividad, correo)) {
 
             System.out.println("Asistencia duplicada");
